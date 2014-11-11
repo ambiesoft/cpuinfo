@@ -18,6 +18,9 @@ int mymain(array<System::String ^> ^args)
 	System::Text::StringBuilder sb;
 	sb.AppendLine(System::Environment::OSVersion->VersionString);
 
+	sb.AppendLine(L"Culture : " + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
+	sb.AppendLine(L"UI Culture " + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
+
 	MEMORYSTATUSEX msx = {0};
 	msx.dwLength = sizeof(msx);
 	if(!GlobalMemoryStatusEx(&msx))
