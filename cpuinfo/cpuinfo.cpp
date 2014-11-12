@@ -21,6 +21,9 @@ int mymain(array<System::String ^> ^args)
 	sb.AppendLine(L"Culture : " + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
 	sb.AppendLine(L"UI Culture " + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
 
+	UINT acp = GetACP();
+	sb.AppendLine(L"ACP : " + acp.ToString());
+
 	MEMORYSTATUSEX msx = {0};
 	msx.dwLength = sizeof(msx);
 	if(!GlobalMemoryStatusEx(&msx))
