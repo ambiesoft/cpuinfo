@@ -20,11 +20,26 @@ int mymain(array<System::String ^> ^args)
 	sb.AppendLine(L"OS :\t" + System::Environment::OSVersion->VersionString);
 	sb.AppendLine(L"User :\t" + System::Environment::UserName);
 
+
+
 	sb.AppendLine(L"Culture :\t" + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
 	sb.AppendLine(L"UI Culture :\t" + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
 
-	UINT acp = GetACP();
-	sb.AppendLine(L"ACP :\t" + acp.ToString());
+
+
+	CPINFOEX cpinfoex;
+	GetCPInfoEx(CP_ACP,
+		0,
+		&cpinfoex);
+	sb.AppendLine(L"ACP :\t" + gcnew String(cpinfoex.CodePageName));
+
+	//TCHAR szLI[128];
+	//szLI[0]=0;
+	//GetLocaleInfo(
+	//	LOCALE_SYSTEM_DEFAULT,
+	//	LOCALE_SENGLANGUAGE,
+	//	szLI,
+	//	sizeof(szLI)/sizeof(szLI[0]));
 
 	MEMORYSTATUSEX msx = {0};
 	msx.dwLength = sizeof(msx);
