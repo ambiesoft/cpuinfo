@@ -18,6 +18,7 @@ int mymain(array<System::String ^> ^args)
 	System::Text::StringBuilder sb;
 	sb.AppendLine(L"Machine :\t" + System::Environment::MachineName);
 	sb.AppendLine(L"OS :\t" + System::Environment::OSVersion->VersionString);
+	sb.AppendLine(L"User :\t" + System::Environment::UserName);
 
 	sb.AppendLine(L"Culture :\t" + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
 	sb.AppendLine(L"UI Culture :\t" + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
@@ -42,13 +43,14 @@ int mymain(array<System::String ^> ^args)
 
 	HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
 
+	int waitspan = 30*1000;
 	NotifyIcon^ ni = gcnew NotifyIcon();
 	ni->BalloonTipText = sb.ToString();
 	ni->Icon = System::Drawing::Icon::FromHandle((IntPtr)hIcon);// gcnew System::Drawing::Icon(
 	ni->Text = L"CPU INFO";
 	ni->Visible = true;
-	ni->ShowBalloonTip(5000);
-	::Sleep(10000);
+	ni->ShowBalloonTip(waitspan);
+	::Sleep(waitspan);
 	delete ni;
 
 	return 0;
