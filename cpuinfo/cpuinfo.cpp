@@ -41,6 +41,11 @@ int mymain(array<System::String ^> ^args)
 	//	szLI,
 	//	sizeof(szLI)/sizeof(szLI[0]));
 
+
+	SYSTEM_INFO sysinfo;
+	GetSystemInfo( &sysinfo );
+	sb.AppendLine(L"Number of CPU :\t" + sysinfo.dwNumberOfProcessors.ToString());
+
 	MEMORYSTATUSEX msx = {0};
 	msx.dwLength = sizeof(msx);
 	if(!GlobalMemoryStatusEx(&msx))
