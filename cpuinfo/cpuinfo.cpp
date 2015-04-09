@@ -42,6 +42,10 @@ int mymain(array<System::String ^> ^args)
 	//	sizeof(szLI)/sizeof(szLI[0]));
 
 
+	DWORD dwPriorityClass = GetPriorityClass(GetCurrentProcess());
+	sb.AppendLine(L"Priority Class :\t" + dwPriorityClass.ToString());
+
+
 	SYSTEM_INFO sysinfo;
 	GetSystemInfo( &sysinfo );
 	sb.AppendLine(L"Number of CPU :\t" + sysinfo.dwNumberOfProcessors.ToString());
@@ -60,6 +64,8 @@ int mymain(array<System::String ^> ^args)
             msx.ullTotalPhys/(1024*1024));
 		sb.AppendLine(L"Ram :\t" + gcnew String(buff));
 	}
+
+
 
 	HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
 
