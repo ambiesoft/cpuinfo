@@ -16,22 +16,21 @@ int mymain(array<System::String ^> ^args)
 	Application::SetCompatibleTextRenderingDefault(false); 
 
 	System::Text::StringBuilder sb;
+
 	sb.AppendLine(L"Machine :\t" + System::Environment::MachineName);
 	sb.AppendLine(L"OS :\t" + System::Environment::OSVersion->VersionString);
 	sb.AppendLine(L"User :\t" + System::Environment::UserName);
 
 
 
-	sb.AppendLine(L"Culture :\t" + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
-	sb.AppendLine(L"UI Culture :\t" + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
+	//sb.AppendLine(L"Culture :\t" + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
+	//sb.AppendLine(L"UI Culture :\t" + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
 
-
-
-	CPINFOEX cpinfoex;
-	GetCPInfoEx(CP_ACP,
-		0,
-		&cpinfoex);
-	sb.AppendLine(L"ACP :\t" + gcnew String(cpinfoex.CodePageName));
+	//CPINFOEX cpinfoex;
+	//GetCPInfoEx(CP_ACP,
+	//	0,
+	//	&cpinfoex);
+	//sb.AppendLine(L"ACP :\t" + gcnew String(cpinfoex.CodePageName));
 
 	//TCHAR szLI[128];
 	//szLI[0]=0;
@@ -60,12 +59,39 @@ int mymain(array<System::String ^> ^args)
 	{
 		TCHAR buff[256];
 		_stprintf(buff,
-			_T("%I64d MB of physical memory.\n"),
+			_T("%I64d MB of physical memory."),
             msx.ullTotalPhys/(1024*1024));
 		sb.AppendLine(L"Ram :\t" + gcnew String(buff));
 	}
 
 
+	for each(System::IO::DriveInfo^ di in System::IO::DriveInfo::GetDrives())
+	{
+		if( di->DriveType==System::IO::DriveType::Fixed)
+		{
+			if(di->IsReady)
+			{
+				sb.Append(di->Name);
+				sb.Append(L"\t");
+
+				System::Int64 available = di->AvailableFreeSpace / 1024 / 1024;
+				String^ availablestring = available.ToString() + L"MB";
+				sb.Append(availablestring);
+
+				
+				sb.Append(L" / ");
+				
+				System::Int64 total = di->TotalSize / 1024 / 1024;
+				sb.Append(total.ToString());
+				sb.Append(L"MB");
+
+				sb.AppendLine();
+			}
+		}
+	}
+
+
+	// System::Windows::Forms::MessageBox::Show(sb.ToString());
 
 	HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
 
