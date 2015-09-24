@@ -23,22 +23,22 @@ int mymain(array<System::String ^> ^args)
 
 
 
-	//sb.AppendLine(L"Culture :\t" + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
-	//sb.AppendLine(L"UI Culture :\t" + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
+//	sb.AppendLine(L"Culture :\t" + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
+//	sb.AppendLine(L"UI Culture :\t" + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
 
-	//CPINFOEX cpinfoex;
-	//GetCPInfoEx(CP_ACP,
-	//	0,
-	//	&cpinfoex);
-	//sb.AppendLine(L"ACP :\t" + gcnew String(cpinfoex.CodePageName));
+	CPINFOEX cpinfoex;
+	GetCPInfoEx(CP_ACP,
+		0,
+		&cpinfoex);
+	sb.AppendLine(L"ACP :\t" + gcnew String(cpinfoex.CodePageName));
 
-	//TCHAR szLI[128];
-	//szLI[0]=0;
-	//GetLocaleInfo(
-	//	LOCALE_SYSTEM_DEFAULT,
-	//	LOCALE_SENGLANGUAGE,
-	//	szLI,
-	//	sizeof(szLI)/sizeof(szLI[0]));
+	TCHAR szLI[128];
+	szLI[0]=0;
+	GetLocaleInfo(
+		LOCALE_SYSTEM_DEFAULT,
+		LOCALE_SENGLANGUAGE,
+		szLI,
+		sizeof(szLI)/sizeof(szLI[0]));
 
 
 	DWORD dwPriorityClass = GetPriorityClass(GetCurrentProcess());
@@ -90,6 +90,14 @@ int mymain(array<System::String ^> ^args)
 		}
 	}
 
+	if(false)
+	{
+		// showballoon.exe [/title:STRING] [/icon:EXE or DLL for ICON] [/iconindex:i] [/duration:MILLISEC] [/waitpid:PID] STRING
+		String^ exe = L"C:\\Linkout\\CommonExe\\showballoon.exe";
+		String^ arg = String::Format(L"/title:{0} /duration:5000 {1}",
+			L"balloonTest",
+			System::Web::HttpUtility::UrlEncode(sb.ToString()));
+		System::Diagnostics::Process::Start(exe,arg);	}
 
 	// System::Windows::Forms::MessageBox::Show(sb.ToString());
 
