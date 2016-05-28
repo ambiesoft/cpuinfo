@@ -7,6 +7,7 @@
 
 using namespace System;
 using namespace System::Windows::Forms;
+using namespace Microsoft::Win32;
 
 [STAThreadAttribute]
 int mymain(array<System::String ^> ^args)
@@ -64,7 +65,6 @@ int mymain(array<System::String ^> ^args)
 		sb.AppendLine(L"Ram :\t" + gcnew String(buff));
 	}
 
-
 	for each(System::IO::DriveInfo^ di in System::IO::DriveInfo::GetDrives())
 	{
 		if( di->DriveType==System::IO::DriveType::Fixed)
@@ -90,6 +90,19 @@ int mymain(array<System::String ^> ^args)
 		}
 	}
 
+	// HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Memory Management
+	// HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management
+	array<Object^>^ oPageFile = (array<Object^>^)Registry::GetValue(L"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management",
+		L"PagingFiles",
+		nullptr);
+	if(oPageFile != nullptr)
+	{
+		sb.AppendLine(L"PageFile:\t" + oPageFile[0]->ToString());
+	}
+
+
+	//--------------------------------------------------
+
 	if(false)
 	{
 		// showballoon.exe [/title:STRING] [/icon:EXE or DLL for ICON] [/iconindex:i] [/duration:MILLISEC] [/waitpid:PID] STRING
@@ -97,9 +110,14 @@ int mymain(array<System::String ^> ^args)
 		String^ arg = String::Format(L"/title:{0} /duration:5000 {1}",
 			L"balloonTest",
 			System::Web::HttpUtility::UrlEncode(sb.ToString()));
-		System::Diagnostics::Process::Start(exe,arg);	}
 
-	// System::Windows::Forms::MessageBox::Show(sb.ToString());
+		System::Diagnostics::Process::Start(exe,arg);
+	}
+
+	System::Windows::Forms::MessageBox::Show(sb.ToString(),
+		Application::ProductName,
+		MessageBoxButtons::OK,
+		MessageBoxIcon::Information);
 
 	HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
 
