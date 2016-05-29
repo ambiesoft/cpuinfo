@@ -114,10 +114,14 @@ int mymain(array<System::String ^> ^args)
 		System::Diagnostics::Process::Start(exe,arg);
 	}
 
-	System::Windows::Forms::MessageBox::Show(sb.ToString(),
-		Application::ProductName,
-		MessageBoxButtons::OK,
-		MessageBoxIcon::Information);
+	//System::Windows::Forms::MessageBox::Show(sb.ToString(),
+	//	Application::ProductName,
+	//	MessageBoxButtons::OK,
+	//	MessageBoxIcon::Information);
+
+	Ambiesoft::CountdownMessageBox::Show(nullptr,
+		sb.ToString(),
+		Application::ProductName);
 
 	HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
 
