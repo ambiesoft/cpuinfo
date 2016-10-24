@@ -9,6 +9,30 @@ using namespace System;
 using namespace System::Windows::Forms;
 using namespace Microsoft::Win32;
 
+typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
+bool Is64BitWindows()
+{
+#if defined(_WIN64)
+	return true;  // 64-bit programs run only on Win64
+#elif defined(_WIN32)
+
+	// 32-bit programs run on both 32-bit and 64-bit Windows
+	// so must sniff
+	BOOL f64 = FALSE;
+	LPFN_ISWOW64PROCESS fnIsWow64Process;
+
+	fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process");
+	if (NULL != fnIsWow64Process)
+	{
+		return !!(fnIsWow64Process(GetCurrentProcess(), &f64) && f64);
+	}
+
+	return false;
+#else
+	return false; // Win64 does not support Win16
+#endif
+}
+
 [STAThreadAttribute]
 int mymain(array<System::String ^> ^args)
 {
@@ -19,7 +43,7 @@ int mymain(array<System::String ^> ^args)
 	System::Text::StringBuilder sb;
 
 	sb.AppendLine(L"Machine :\t" + System::Environment::MachineName);
-	sb.AppendLine(L"OS :\t" + System::Environment::OSVersion->VersionString);
+	sb.AppendLine(L"OS :\t" + System::Environment::OSVersion->VersionString + L" " + (Is64BitWindows()?L"64bit":L""));
 	sb.AppendLine(L"User :\t" + System::Environment::UserName);
 
 
@@ -85,6 +109,10 @@ int mymain(array<System::String ^> ^args)
 				sb.Append(total.ToString());
 				sb.Append(L"MB");
 
+				sb.Append(L" (");
+				sb.Append( ( (100-(100*available)/total) ).ToString() );
+				sb.Append(L"% used)");
+
 				sb.AppendLine();
 			}
 		}
@@ -114,14 +142,14 @@ int mymain(array<System::String ^> ^args)
 		System::Diagnostics::Process::Start(exe,arg);
 	}
 
-	//System::Windows::Forms::MessageBox::Show(sb.ToString(),
-	//	Application::ProductName,
-	//	MessageBoxButtons::OK,
-	//	MessageBoxIcon::Information);
+	System::Windows::Forms::MessageBox::Show(sb.ToString(),
+		Application::ProductName,
+		MessageBoxButtons::OK,
+		MessageBoxIcon::Information);
 
-	Ambiesoft::CountdownMessageBox::Show(nullptr,
-		sb.ToString(),
-		Application::ProductName);
+	//Ambiesoft::CountdownMessageBox::Show(nullptr,
+	//	sb.ToString(),
+	//	Application::ProductName);
 
 	HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
 
