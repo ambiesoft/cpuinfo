@@ -89,6 +89,19 @@ int mymain(array<System::String ^> ^args)
 		sb.AppendLine(L"Ram :\t" + gcnew String(buff));
 	}
 
+	String^ pefcounter;
+	sb.Append(L"QueryPerformanceFrequency :\t");
+	LARGE_INTEGER li={0};
+	if(!QueryPerformanceFrequency(&li))
+	{
+		pefcounter = L"Failed";
+	}
+	else
+	{
+		pefcounter = li.QuadPart.ToString();
+	}
+	sb.AppendLine(pefcounter);
+
 	for each(System::IO::DriveInfo^ di in System::IO::DriveInfo::GetDrives())
 	{
 		if( di->DriveType==System::IO::DriveType::Fixed)
