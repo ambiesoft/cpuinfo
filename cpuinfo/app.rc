@@ -45,7 +45,7 @@ END
 
 2 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""windows.h""\r\n"
     "\0"
 END
 
