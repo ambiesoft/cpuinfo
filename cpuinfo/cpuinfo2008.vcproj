@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="L:\MSSDK\2003\Include;L:\check"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -54,7 +54,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="L:\MSSDK\2003\Include;L:\MSSDK\2003\Include\mfc"
+				AdditionalIncludeDirectories=""
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(NoInherit)"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="L:\MSSDK\2003\Lib"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="2"
@@ -120,85 +120,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="L:\MSSDK\2003\Include;L:\check"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
-				WarningLevel="3"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="L:\MSSDK\2003\Include;L:\MSSDK\2003\Include\mfc"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="L:\MSSDK\2003\Lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				EntryPointSymbol="main"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Ship|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="1"
-			ManagedExtensions="2"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="L:\MSSDK\2003\Include;L:\check"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories=""
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -209,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="L:\MSSDK\2003\Include;L:\MSSDK\2003\Include\mfc"
+				AdditionalIncludeDirectories=""
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -217,9 +139,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(NoInherit)"
+				OutputFile=""
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="L:\MSSDK\2003\Lib"
-				GenerateDebugInformation="false"
+				AdditionalLibraryDirectories=""
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				EntryPointSymbol="main"
 				RandomizedBaseAddress="1"
@@ -280,6 +203,11 @@
 			AssemblyName="System.Web, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=IA64"
 			MinFrameworkVersion="131072"
 		/>
+		<AssemblyReference
+			RelativePath="..\..\amblib\amblib\bin\Release\Ambiesoft.amblib.dll"
+			AssemblyName="Ambiesoft.amblib, Version=1.0.0.0, processorArchitecture=MSIL"
+			MinFrameworkVersion="131072"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -308,14 +236,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Ship|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"

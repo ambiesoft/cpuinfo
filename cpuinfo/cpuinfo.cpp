@@ -33,6 +33,9 @@ bool Is64BitWindows()
 #endif
 }
 
+
+#define TABSPACE L""
+
 [STAThreadAttribute]
 int mymain(array<System::String ^> ^args)
 {
@@ -42,66 +45,106 @@ int mymain(array<System::String ^> ^args)
 
 	System::Text::StringBuilder sb;
 
-	sb.AppendLine(L"Machine :\t" + System::Environment::MachineName);
-	sb.AppendLine(L"OS :\t" + System::Environment::OSVersion->VersionString + L" " + (Is64BitWindows()?L"64bit":L""));
-	sb.AppendLine(L"User :\t" + System::Environment::UserName);
-
-
-
-//	sb.AppendLine(L"Culture :\t" + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
-//	sb.AppendLine(L"UI Culture :\t" + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
-
-	CPINFOEX cpinfoex;
-	GetCPInfoEx(CP_ACP,
-		0,
-		&cpinfoex);
-	sb.AppendLine(L"ACP :\t" + gcnew String(cpinfoex.CodePageName));
-
-	TCHAR szLI[128];
-	szLI[0]=0;
-	GetLocaleInfo(
-		LOCALE_SYSTEM_DEFAULT,
-		LOCALE_SENGLANGUAGE,
-		szLI,
-		sizeof(szLI)/sizeof(szLI[0]));
-
-
-	DWORD dwPriorityClass = GetPriorityClass(GetCurrentProcess());
-	sb.AppendLine(L"Priority Class :\t" + dwPriorityClass.ToString());
-
-
-	SYSTEM_INFO sysinfo;
-	GetSystemInfo( &sysinfo );
-	sb.AppendLine(L"Number of CPU :\t" + sysinfo.dwNumberOfProcessors.ToString());
-
-	MEMORYSTATUSEX msx = {0};
-	msx.dwLength = sizeof(msx);
-	if(!GlobalMemoryStatusEx(&msx))
 	{
-		sb.AppendLine(gcnew String(_T("Function fails")));
-	}
-	else
-	{
-		TCHAR buff[256];
-		_stprintf(buff,
-			_T("%I64d MB of physical memory."),
-            msx.ullTotalPhys/(1024*1024));
-		sb.AppendLine(L"Ram :\t" + gcnew String(buff));
+		sb.AppendLine(L"Machine :" + TABSPACE  + System::Environment::MachineName);
 	}
 
-	String^ pefcounter;
-	sb.Append(L"QueryPerformanceFrequency :\t");
-	LARGE_INTEGER li={0};
-	if(!QueryPerformanceFrequency(&li))
 	{
-		pefcounter = L"Failed";
+		sb.AppendLine(L"OS :" + TABSPACE  + System::Environment::OSVersion->VersionString + L" " + (Is64BitWindows()?L"64bit":L""));
 	}
-	else
-	{
-		pefcounter = li.QuadPart.ToString();
-	}
-	sb.AppendLine(pefcounter);
 
+	{
+		sb.AppendLine(L"User :" + TABSPACE  + System::Environment::UserName);
+	}
+
+	//	sb.AppendLine(L"Culture :" + TABSPACE  + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
+	//	sb.AppendLine(L"UI Culture :" + TABSPACE  + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
+
+	// Number of CPU
+	{
+		SYSTEM_INFO sysinfo;
+		GetSystemInfo( &sysinfo );
+		sb.AppendLine(L"Number of CPU :" + TABSPACE  + sysinfo.dwNumberOfProcessors.ToString());
+	}
+
+
+
+	// memory
+	{
+		MEMORYSTATUSEX msx = {0};
+		msx.dwLength = sizeof(msx);
+		if(!GlobalMemoryStatusEx(&msx))
+		{
+			sb.AppendLine(gcnew String(_T("Function fails")));
+		}
+		else
+		{
+			TCHAR buff[256];
+			_stprintf(buff,
+				_T("%I64d MB of physical memory."),
+				msx.ullTotalPhys/(1024*1024));
+			sb.AppendLine(L"Ram :" + TABSPACE  + gcnew String(buff));
+		}
+	}
+
+
+
+	{
+		sb.AppendLine(L".NET Framework:");
+		sb.AppendLine(Ambiesoft::AmbLib::GetInstalledDotNetVersionFromRegistry());
+	}
+
+
+	// ACP
+	{
+		CPINFOEX cpinfoex;
+		GetCPInfoEx(CP_ACP,
+			0,
+			&cpinfoex);
+		sb.AppendLine(L"ACP :" + TABSPACE  + gcnew String(cpinfoex.CodePageName));
+	}
+
+
+	// Locale
+	{
+		TCHAR szLI[128];
+		szLI[0]=0;
+		GetLocaleInfo(
+			LOCALE_SYSTEM_DEFAULT,
+			LOCALE_SENGLANGUAGE,
+			szLI,
+			sizeof(szLI)/sizeof(szLI[0]));
+		sb.AppendLine(L"Locale :" + TABSPACE  + gcnew String(szLI));
+	}
+
+	
+	// Priority
+	{
+		DWORD dwPriorityClass = GetPriorityClass(GetCurrentProcess());
+		sb.AppendLine(L"Priority Class :" + TABSPACE  + dwPriorityClass.ToString());
+	}
+
+
+
+
+	// perf counter
+	{
+		String^ pefcounter;
+		sb.Append(L"QueryPerformanceFrequency :" + TABSPACE );
+		LARGE_INTEGER li={0};
+		if(!QueryPerformanceFrequency(&li))
+		{
+			pefcounter = L"Failed";
+		}
+		else
+		{
+			pefcounter = li.QuadPart.ToString();
+		}
+		sb.AppendLine(pefcounter);
+	}
+
+
+	// drive free space
 	for each(System::IO::DriveInfo^ di in System::IO::DriveInfo::GetDrives())
 	{
 		if( di->DriveType==System::IO::DriveType::Fixed)
@@ -109,15 +152,15 @@ int mymain(array<System::String ^> ^args)
 			if(di->IsReady)
 			{
 				sb.Append(di->Name);
-				sb.Append(L"\t");
+				sb.Append(L"" + TABSPACE );
 
 				System::Int64 available = di->AvailableFreeSpace / 1024 / 1024;
 				String^ availablestring = available.ToString() + L"MB";
 				sb.Append(availablestring);
 
-				
+
 				sb.Append(L" / ");
-				
+
 				System::Int64 total = di->TotalSize / 1024 / 1024;
 				sb.Append(total.ToString());
 				sb.Append(L"MB");
@@ -131,14 +174,18 @@ int mymain(array<System::String ^> ^args)
 		}
 	}
 
-	// HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Memory Management
-	// HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management
-	array<Object^>^ oPageFile = (array<Object^>^)Registry::GetValue(L"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management",
-		L"PagingFiles",
-		nullptr);
-	if(oPageFile != nullptr)
+
+	// page file
 	{
-		sb.AppendLine(L"PageFile:\t" + oPageFile[0]->ToString());
+		// HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Memory Management
+		// HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management
+		array<Object^>^ oPageFile = (array<Object^>^)Registry::GetValue(L"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management",
+			L"PagingFiles",
+			nullptr);
+		if(oPageFile != nullptr)
+		{
+			sb.AppendLine(L"PageFile:" + TABSPACE  + oPageFile[0]->ToString());
+		}
 	}
 
 
