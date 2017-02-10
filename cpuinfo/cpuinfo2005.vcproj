@@ -273,8 +273,8 @@
 			AssemblyName="System.Xml, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
 		/>
 		<AssemblyReference
-			RelativePath="..\..\..\..\..\..\Linkout\DNAssembly\Ambiesoft.CountdownMessageBox.dll"
-			AssemblyName="Ambiesoft.CountdownMessageBox, Version=1.0.0.0, processorArchitecture=MSIL"
+			RelativePath="..\..\amblib\amblib\bin\Release\Ambiesoft.amblib.dll"
+			AssemblyName="Ambiesoft.amblib, Version=1.0.0.0, processorArchitecture=MSIL"
 		/>
 		<AssemblyReference
 			RelativePath="System.Web.dll"
