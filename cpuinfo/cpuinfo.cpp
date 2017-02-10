@@ -6,6 +6,7 @@
 #pragma comment(lib,"user32.lib")
 
 using namespace System;
+using namespace System::IO;
 using namespace System::Windows::Forms;
 using namespace Microsoft::Win32;
 
@@ -91,7 +92,17 @@ int mymain(array<System::String ^> ^args)
 
 	{
 		sb.AppendLine(L".NET Framework:");
-		sb.AppendLine(Ambiesoft::AmbLib::GetInstalledDotNetVersionFromRegistry());
+		String^ t = Ambiesoft::AmbLib::GetInstalledDotNetVersionFromRegistry();
+		StringReader sr(t);
+		System::Text::StringBuilder sbt;
+		String^ tt;
+		while( (tt=sr.ReadLine()) != nullptr )
+		{
+			sbt.Append(L" ");
+			sbt.Append(tt);
+			sbt.AppendLine();
+		}
+		sb.AppendLine(sbt.ToString());
 	}
 
 
@@ -211,17 +222,21 @@ int mymain(array<System::String ^> ^args)
 	//	sb.ToString(),
 	//	Application::ProductName);
 
-	HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
 
-	int waitspan = 30*1000;
-	NotifyIcon^ ni = gcnew NotifyIcon();
-	ni->BalloonTipText = sb.ToString();
-	ni->Icon = System::Drawing::Icon::FromHandle((IntPtr)hIcon);// gcnew System::Drawing::Icon(
-	ni->Text = L"CPU INFO";
-	ni->Visible = true;
-	ni->ShowBalloonTip(waitspan);
-	::Sleep(waitspan);
-	delete ni;
+	if(false)
+	{
+		HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
+
+		int waitspan = 30*1000;
+		NotifyIcon^ ni = gcnew NotifyIcon();
+		ni->BalloonTipText = sb.ToString();
+		ni->Icon = System::Drawing::Icon::FromHandle((IntPtr)hIcon);// gcnew System::Drawing::Icon(
+		ni->Text = L"CPU INFO";
+		ni->Visible = true;
+		ni->ShowBalloonTip(waitspan);
+		::Sleep(waitspan);
+		delete ni;
+	}
 
 	return 0;
 }
