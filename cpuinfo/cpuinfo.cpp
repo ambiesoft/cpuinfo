@@ -136,7 +136,10 @@ int mymain(array<System::String ^> ^args)
 	}
 
 
-
+	// resolution
+	{
+		sb.AppendLine(L"Resolution :" + Screen::PrimaryScreen->Bounds.Width.ToString() + L"x" + Screen::PrimaryScreen->Bounds.Height.ToString());
+	}
 
 	// perf counter
 	{
@@ -156,35 +159,37 @@ int mymain(array<System::String ^> ^args)
 
 
 	// drive free space
-	for each(System::IO::DriveInfo^ di in System::IO::DriveInfo::GetDrives())
 	{
-		if( di->DriveType==System::IO::DriveType::Fixed)
+		for each(System::IO::DriveInfo^ di in System::IO::DriveInfo::GetDrives())
 		{
-			if(di->IsReady)
+			if( di->DriveType==System::IO::DriveType::Fixed)
 			{
-				sb.Append(di->Name);
-				sb.Append(L"" + TABSPACE );
+				if(di->IsReady)
+				{
+					sb.Append(di->Name);
+					sb.Append(L"" + TABSPACE );
 
-				System::Int64 available = di->AvailableFreeSpace / 1024 / 1024;
-				String^ availablestring = available.ToString() + L"MB";
-				sb.Append(availablestring);
+					System::Int64 available = di->AvailableFreeSpace / 1024 / 1024;
+					String^ availablestring = available.ToString() + L"MB";
+					sb.Append(availablestring);
 
 
-				sb.Append(L" / ");
+					sb.Append(L" / ");
 
-				System::Int64 total = di->TotalSize / 1024 / 1024;
-				sb.Append(total.ToString());
-				sb.Append(L"MB");
+					System::Int64 total = di->TotalSize / 1024 / 1024;
+					sb.Append(total.ToString());
+					sb.Append(L"MB");
 
-				sb.Append(L" (");
-				sb.Append( ( (100-(100*available)/total) ).ToString() );
-				sb.Append(L"% used)");
-
-				sb.AppendLine();
+					sb.Append(L" (");
+					sb.Append( ( (100-(100*available)/total) ).ToString() );
+					sb.Append(L"% used)");
+					sb.Append(L"\t");
+					
+				}
 			}
 		}
+		sb.AppendLine();
 	}
-
 
 	// page file
 	{
