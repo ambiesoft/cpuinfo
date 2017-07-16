@@ -218,6 +218,13 @@ int mymain(array<System::String ^> ^args)
 		System::Diagnostics::Process::Start(exe,arg);
 	}
 
+	sb.AppendLine();
+	
+	// DNS server
+	{
+		sb.AppendLine("DNS:" + TABSPACE + Ambiesoft::AmbLib::GetDnsAdress());
+	}
+
 	System::Windows::Forms::MessageBox::Show(sb.ToString(),
 		Application::ProductName,
 		MessageBoxButtons::OK,
