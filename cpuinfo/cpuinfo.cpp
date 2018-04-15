@@ -243,7 +243,7 @@ int mymain(array<System::String ^> ^args)
 	}
 
 	System::Windows::Forms::MessageBox::Show(sb.ToString(),
-		Application::ProductName,
+		Application::ProductName + " ver" + Ambiesoft::AmbLib::GetSimpleVersion(System::Reflection::Assembly::GetExecutingAssembly()),
 		MessageBoxButtons::OK,
 		MessageBoxIcon::Information);
 
