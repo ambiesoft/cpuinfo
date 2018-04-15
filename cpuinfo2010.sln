@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpuinfo", "cpuinfo\cpuinfo2010.vcxproj", "{0A293BFF-9A61-4A3A-A581-F3A0A556B35B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		Ship|Win32 = Ship|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A293BFF-9A61-4A3A-A581-F3A0A556B35B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A293BFF-9A61-4A3A-A581-F3A0A556B35B}.Debug|Win32.Build.0 = Debug|Win32
+		{0A293BFF-9A61-4A3A-A581-F3A0A556B35B}.Release|Win32.ActiveCfg = Release|Win32
+		{0A293BFF-9A61-4A3A-A581-F3A0A556B35B}.Release|Win32.Build.0 = Release|Win32
+		{0A293BFF-9A61-4A3A-A581-F3A0A556B35B}.Ship|Win32.ActiveCfg = Ship|Win32
+		{0A293BFF-9A61-4A3A-A581-F3A0A556B35B}.Ship|Win32.Build.0 = Ship|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
