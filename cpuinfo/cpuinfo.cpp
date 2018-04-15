@@ -7,6 +7,7 @@
 
 using namespace System;
 using namespace System::IO;
+using namespace System::Net;
 using namespace System::Windows::Forms;
 using namespace Microsoft::Win32;
 
@@ -223,6 +224,22 @@ int mymain(array<System::String ^> ^args)
 	// DNS server
 	{
 		sb.AppendLine("DNS:" + TABSPACE + Ambiesoft::AmbLib::GetDnsAdress());
+	}
+
+	// Lookup
+	{
+		String^ strip = String::Empty;
+		try
+		{
+			IPHostEntry^ entry = Dns::GetHostEntry("mysqlserverhost");
+			if(entry && entry->AddressList->Length > 0)
+			{
+				IPAddress^ ip = entry->AddressList[0];
+				strip = ip->ToString();
+			}
+		}
+		catch(Exception^) {}
+		sb.AppendLine("Lookup: " + TABSPACE + "mysqlserverhost=" + strip);
 	}
 
 	System::Windows::Forms::MessageBox::Show(sb.ToString(),
