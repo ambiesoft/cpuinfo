@@ -5,6 +5,8 @@
 
 #pragma comment(lib,"user32.lib")
 
+#using "C:/Linkout/DNAssembly.NET4/Ambiesoft.AmbLib.dll"
+
 using namespace System;
 using namespace System::IO;
 using namespace System::Net;
@@ -38,6 +40,17 @@ bool Is64BitWindows()
 
 #define TABSPACE L""
 
+String^ aaa(System::Int64 value)
+{
+	System::Int64 available = value / 1024 / 1024;
+	String^ unit = L"MB";
+	if (available > 1024)
+	{
+		available /= 1024;
+		unit = L"GB";
+	}
+	return available.ToString() + unit;
+}
 [STAThreadAttribute]
 int mymain(array<System::String ^> ^args)
 {
@@ -170,22 +183,18 @@ int mymain(array<System::String ^> ^args)
 					sb.Append(di->Name);
 					sb.Append(L"" + TABSPACE );
 
-					System::Int64 available = di->AvailableFreeSpace / 1024 / 1024;
-					String^ availablestring = available.ToString() + L"MB";
-					sb.Append(availablestring);
+					sb.Append(aaa(di->AvailableFreeSpace));
 
 
 					sb.Append(L" / ");
 
-					System::Int64 total = di->TotalSize / 1024 / 1024;
-					sb.Append(total.ToString());
-					sb.Append(L"MB");
+					sb.Append(aaa(di->TotalSize));
 
 					sb.Append(L" (");
-					sb.Append( ( (100-(100*available)/total) ).ToString() );
+					sb.Append(((100 - (100 * di->AvailableFreeSpace) / di->TotalSize)).ToString());
 					sb.Append(L"% used)");
-					sb.Append(L"\t");
-					
+
+					sb.AppendLine();
 				}
 			}
 		}
