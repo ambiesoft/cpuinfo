@@ -96,7 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Reference Include="Ambiesoft.AmbLib, Version=1.0.1.34998, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="Ambiesoft.AmbLib, Version=1.0.1.19647, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\..\..\..\Linkout\DNAssembly.NET4\Ambiesoft.AmbLib.dll</HintPath>
     </Reference>
     <Reference Include="System">

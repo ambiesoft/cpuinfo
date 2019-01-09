@@ -6,6 +6,7 @@
 	ProjectGUID="{0A293BFF-9A61-4A3A-A581-F3A0A556B35B}"
 	RootNamespace="cpuinfo"
 	Keyword="ManagedCProj"
+	AssemblyReferenceSearchPaths="&quot;C:\Linkout\DNAssembly.NET4&quot;"
 	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
@@ -278,11 +279,6 @@
 		<AssemblyReference
 			RelativePath="System.Web.dll"
 			AssemblyName="System.Web, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=IA64"
-			MinFrameworkVersion="131072"
-		/>
-		<AssemblyReference
-			RelativePath="..\..\amblib\amblib\bin\Release\Ambiesoft.amblib.dll"
-			AssemblyName="Ambiesoft.amblib, Version=1.0.0.0, processorArchitecture=MSIL"
 			MinFrameworkVersion="131072"
 		/>
 	</References>
