@@ -14,9 +14,9 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyTitleAttribute("cpuinfo")];
 [assembly:AssemblyDescriptionAttribute("")];
 [assembly:AssemblyConfigurationAttribute("")];
-[assembly:AssemblyCompanyAttribute("yu3")];
+[assembly:AssemblyCompanyAttribute("Ambiesoft")];
 [assembly:AssemblyProductAttribute("cpuinfo")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c) yu3 2014")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) Ambiesoft 2019")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 
@@ -31,7 +31,7 @@ using namespace System::Security::Permissions;
 // You can specify all the value or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
 
-[assembly:AssemblyVersionAttribute("1.2.*")];
+[assembly:AssemblyVersionAttribute("1.3.*")];
 
 [assembly:ComVisible(false)];
 
