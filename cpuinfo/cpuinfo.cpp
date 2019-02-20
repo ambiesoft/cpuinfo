@@ -132,14 +132,25 @@ int mymain(array<System::String ^> ^args)
 
 	// Locale
 	{
-		TCHAR szLI[128];
-		szLI[0]=0;
-		GetLocaleInfo(
-			LOCALE_SYSTEM_DEFAULT,
-			LOCALE_SENGLANGUAGE,
-			szLI,
-			sizeof(szLI)/sizeof(szLI[0]));
-		sb.AppendLine(L"Locale :" + TABSPACE  + gcnew String(szLI));
+		{
+			TCHAR szLI[128];
+			szLI[0] = 0;
+			GetLocaleInfo(
+				LOCALE_SYSTEM_DEFAULT,
+				LOCALE_SENGLANGUAGE,
+				szLI,
+				sizeof(szLI) / sizeof(szLI[0]));
+			sb.AppendLine(L"Locale(LOCALE_SENGLANGUAGE) :" + TABSPACE + gcnew String(szLI));
+		}
+		{
+			TCHAR szLL[128]; szLL[0] = 0;
+			GetLocaleInfo(
+				LOCALE_SYSTEM_DEFAULT,
+				LOCALE_SABBREVLANGNAME,
+				szLL,
+				128);
+			sb.AppendLine(L"Locale(LOCALE_SABBREVLANGNAME) :" + TABSPACE + gcnew String(szLL));
+		}
 	}
 
 	
