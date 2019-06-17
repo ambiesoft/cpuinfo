@@ -1,8 +1,8 @@
-cpuinfo2013.sdf
+
 ipch/
 cpuinfo/app.aps
 
-cpuinfo2010.sdf
+*.sdf
 
 # /
 /Debug

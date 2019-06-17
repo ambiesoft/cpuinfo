@@ -1,6 +1,8 @@
 // cpuinfo.cpp : main project file.
 
 #include "stdafx.h"
+#include "../../lsMisc/HighDPI.h"
+
 #include "resource.h"
 
 #pragma comment(lib,"user32.lib")
@@ -40,7 +42,7 @@ bool Is64BitWindows()
 
 #define TABSPACE L""
 
-String^ aaa(System::Int64 value)
+String^ ToHumanString(System::Int64 value)
 {
 	System::Int64 available = value / 1024 / 1024;
 	String^ unit = L"MB";
@@ -51,9 +53,12 @@ String^ aaa(System::Int64 value)
 	}
 	return available.ToString() + unit;
 }
+
 [STAThreadAttribute]
 int mymain(array<System::String ^> ^args)
 {
+	Ambiesoft::InitHighDPISupport();
+
 	// Enabling Windows XP visual effects before any controls are created
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
@@ -194,12 +199,12 @@ int mymain(array<System::String ^> ^args)
 					sb.Append(di->Name);
 					sb.Append(L"" + TABSPACE );
 
-					sb.Append(aaa(di->AvailableFreeSpace));
+					sb.Append(ToHumanString(di->AvailableFreeSpace));
 
 
 					sb.Append(L" / ");
 
-					sb.Append(aaa(di->TotalSize));
+					sb.Append(ToHumanString(di->TotalSize));
 
 					sb.Append(L" (");
 					sb.Append(((100 - (100 * di->AvailableFreeSpace) / di->TotalSize)).ToString());
@@ -263,7 +268,7 @@ int mymain(array<System::String ^> ^args)
 	}
 
 	System::Windows::Forms::MessageBox::Show(sb.ToString(),
-		Application::ProductName + " ver" + Ambiesoft::AmbLib::GetSimpleVersion(System::Reflection::Assembly::GetExecutingAssembly()),
+		Application::ProductName + " ver" + Ambiesoft::AmbLib::getAssemblyVersion(System::Reflection::Assembly::GetExecutingAssembly(), 3),
 		MessageBoxButtons::OK,
 		MessageBoxIcon::Information);
 

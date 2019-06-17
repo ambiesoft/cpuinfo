@@ -130,6 +130,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\lsMisc\HighDPI.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="cpuinfo.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -138,6 +139,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\lsMisc\HighDPI.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
