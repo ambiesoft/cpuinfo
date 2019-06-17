@@ -1,8 +1,8 @@
-cpuinfo2013.sdf
+
 ipch/
 cpuinfo/app.aps
 
-cpuinfo2010.sdf
+*.sdf
 
 # /
 /Debug
@@ -10,6 +10,7 @@ cpuinfo2010.sdf
 /Ship
 /*.ncb
 /*.suo
+/*.opensdf
 
 # /cpuinfo/
 /cpuinfo/Debug

@@ -9,6 +9,7 @@
 #pragma warning(disable:4141 4996)
 
 #include <windows.h>
+
 #include <tchar.h>
 
 #include <vcclr.h>
