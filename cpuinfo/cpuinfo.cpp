@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 
-
 #include "../../lsMisc/HighDPI.h"
 #include "../../lsMisc/CHandle.h"
 #include "../../lsMisc/CreateSimpleWindow.h"
@@ -119,7 +118,6 @@ int mymain(array<System::String ^> ^args)
 {
 	Ambiesoft::InitHighDPISupport();
 
-	
 	// Enabling Windows XP visual effects before any controls are created
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
