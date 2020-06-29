@@ -8,8 +8,13 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #pragma warning(disable:4141 4996)
 
-#include <windows.h>
+#include <string>
+#include <memory>
+#include <functional>
 
+
+#include <windows.h>
+#include <gl/GL.h>
 #include <tchar.h>
 
 #include <vcclr.h>

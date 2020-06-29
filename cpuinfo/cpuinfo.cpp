@@ -1,11 +1,7 @@
 // cpuinfo.cpp : main project file.
 
 #include "stdafx.h"
-#include <string>
-#include <memory>
-#include <functional>
 
-#include <gl/GL.h>
 
 #include "../../lsMisc/HighDPI.h"
 #include "../../lsMisc/CHandle.h"
