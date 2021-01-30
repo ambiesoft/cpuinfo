@@ -13,8 +13,6 @@
 #pragma comment(lib,"Gdi32.lib")
 
 
-#using "C:/Linkout/DNAssembly.NET4/Ambiesoft.AmbLib.dll"
-
 using namespace System;
 using namespace System::IO;
 using namespace System::Net;

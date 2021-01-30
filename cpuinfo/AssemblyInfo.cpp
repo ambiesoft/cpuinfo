@@ -32,7 +32,7 @@ using namespace System::Security::Permissions;
 // by using the '*' as shown below:
 
 
-[assembly:AssemblyVersionAttribute("1.4.2.*")];
+[assembly:AssemblyVersionAttribute("2.0.1.*")];
 
 [assembly:ComVisible(false)];
 
