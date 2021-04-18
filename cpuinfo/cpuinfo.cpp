@@ -54,7 +54,7 @@ std::string GetGlVersion()
 	//FNglGetString fnglGetString = (FNglGetString)GetProcAddress(module, "glGetString");
 	//if (!fnglGetString)
 	//	return std::string();
-	Ambiesoft::CHWnd hwnd = Ambiesoft::CreateSimpleWindow();
+	Ambiesoft::CHWnd hwnd(Ambiesoft::CreateSimpleWindow());
 	if (!hwnd)
 		return std::string();
 
@@ -123,17 +123,21 @@ int mymain(array<System::String ^> ^args)
 	System::Text::StringBuilder sb;
 
 	{
-		sb.AppendLine(L"Machine :" + TABSPACE  + System::Environment::MachineName);
+		sb.AppendLine(L"Machine: " + TABSPACE  + System::Environment::MachineName);
 	}
 
 	{
-		sb.AppendLine(L"OS :" + TABSPACE  + System::Environment::OSVersion->VersionString + L" " + (Is64BitWindows()?L"64bit":L""));
+		sb.AppendLine(L"OS: " + TABSPACE  + System::Environment::OSVersion->VersionString + L" " + (Is64BitWindows()?L"64bit":L""));
 	}
 
 	{
-		sb.AppendLine(L"User :" + TABSPACE  + System::Environment::UserName);
+		sb.AppendLine(L"User: " + TABSPACE  + System::Environment::UserName);
 	}
 
+	{
+		String^ sid = System::DirectoryServices::AccountManagement::UserPrincipal::Current->Sid->ToString();
+		sb.AppendLine(L"SID: " + TABSPACE + sid);
+	}
 	//	sb.AppendLine(L"Culture :" + TABSPACE  + System::Globalization::CultureInfo::CurrentCulture->DisplayName);
 	//	sb.AppendLine(L"UI Culture :" + TABSPACE  + System::Globalization::CultureInfo::CurrentUICulture->DisplayName);
 
@@ -141,7 +145,7 @@ int mymain(array<System::String ^> ^args)
 	{
 		SYSTEM_INFO sysinfo;
 		GetSystemInfo( &sysinfo );
-		sb.AppendLine(L"Number of CPU :" + TABSPACE  + sysinfo.dwNumberOfProcessors.ToString());
+		sb.AppendLine(L"Number of CPU: " + TABSPACE  + sysinfo.dwNumberOfProcessors.ToString());
 	}
 
 
@@ -160,7 +164,7 @@ int mymain(array<System::String ^> ^args)
 			_stprintf(buff,
 				_T("%I64d MB of physical memory."),
 				msx.ullTotalPhys/(1024*1024));
-			sb.AppendLine(L"Ram :" + TABSPACE  + gcnew String(buff));
+			sb.AppendLine(L"Ram: " + TABSPACE  + gcnew String(buff));
 		}
 	}
 
@@ -184,7 +188,7 @@ int mymain(array<System::String ^> ^args)
 	// OpenGL
 	{
 		std::string glversion = GetGlVersion();
-		sb.AppendLine(L"OpenGL :" + TABSPACE + gcnew String(glversion.c_str()));
+		sb.AppendLine(L"OpenGL: " + TABSPACE + gcnew String(glversion.c_str()));
 	}
 
 	// ACP
@@ -193,7 +197,7 @@ int mymain(array<System::String ^> ^args)
 		GetCPInfoEx(CP_ACP,
 			0,
 			&cpinfoex);
-		sb.AppendLine(L"ACP :" + TABSPACE  + gcnew String(cpinfoex.CodePageName));
+		sb.AppendLine(L"ACP: " + TABSPACE  + gcnew String(cpinfoex.CodePageName));
 	}
 
 
@@ -224,19 +228,19 @@ int mymain(array<System::String ^> ^args)
 	// Priority
 	{
 		DWORD dwPriorityClass = GetPriorityClass(GetCurrentProcess());
-		sb.AppendLine(L"Priority Class :" + TABSPACE  + dwPriorityClass.ToString());
+		sb.AppendLine(L"Priority Class: " + TABSPACE  + dwPriorityClass.ToString());
 	}
 
 
 	// resolution
 	{
-		sb.AppendLine(L"Resolution :" + Screen::PrimaryScreen->Bounds.Width.ToString() + L"x" + Screen::PrimaryScreen->Bounds.Height.ToString());
+		sb.AppendLine(L"Resolution: " + Screen::PrimaryScreen->Bounds.Width.ToString() + L"x" + Screen::PrimaryScreen->Bounds.Height.ToString());
 	}
 
 	// perf counter
 	{
 		String^ pefcounter;
-		sb.Append(L"QueryPerformanceFrequency :" + TABSPACE );
+		sb.Append(L"QueryPerformanceFrequency: " + TABSPACE );
 		LARGE_INTEGER li={0};
 		if(!QueryPerformanceFrequency(&li))
 		{
@@ -288,7 +292,7 @@ int mymain(array<System::String ^> ^args)
 			nullptr);
 		if(oPageFile != nullptr)
 		{
-			sb.AppendLine(L"PageFile:" + TABSPACE  + oPageFile[0]->ToString());
+			sb.AppendLine(L"PageFile: " + TABSPACE  + oPageFile[0]->ToString());
 		}
 	}
 
@@ -310,7 +314,7 @@ int mymain(array<System::String ^> ^args)
 	
 	// DNS server
 	{
-		sb.AppendLine("DNS:" + TABSPACE + Ambiesoft::AmbLib::GetDnsAdress());
+		sb.AppendLine("DNS: " + TABSPACE + Ambiesoft::AmbLib::GetDnsAdress());
 	}
 
 	// Lookup
