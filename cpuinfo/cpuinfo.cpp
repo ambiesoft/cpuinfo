@@ -262,8 +262,8 @@ int mymain(array<System::String ^> ^args)
 			{
 				if(di->IsReady)
 				{
-					sb.Append(di->Name);
-					sb.Append(L"" + TABSPACE );
+					sb.Append(di->Name->TrimEnd('\\'));
+					sb.Append(L" " + TABSPACE );
 
 					sb.Append(ToHumanString(di->AvailableFreeSpace));
 
