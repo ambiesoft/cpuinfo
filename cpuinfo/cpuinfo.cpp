@@ -148,8 +148,6 @@ int mymain(array<System::String ^> ^args)
 		sb.AppendLine(L"Number of CPU: " + TABSPACE  + sysinfo.dwNumberOfProcessors.ToString());
 	}
 
-
-
 	// memory
 	{
 		MEMORYSTATUSEX msx = {0};
@@ -168,8 +166,25 @@ int mymain(array<System::String ^> ^args)
 		}
 	}
 
+	// IP Address
+	{
+		try
+		{
+			for each (IPAddress ^ ip in Dns::GetHostEntry(System::Net::Dns::GetHostName())->AddressList)
+			{
+				if (ip->AddressFamily == Sockets::AddressFamily::InterNetwork)
+				{
+					sb.AppendLine(L"IP: " + ip->ToString());
+				}
+			}
+		}
+		catch (Exception^ ex)
+		{
+			sb.AppendLine(ex->ToString());
+		}
+	}
 
-
+	// Installed dotnet version
 	{
 		sb.AppendLine(L".NET Framework:");
 		String^ t = Ambiesoft::AmbLib::GetInstalledDotNetVersionFromRegistry();
