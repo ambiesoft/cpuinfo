@@ -1,11 +1,6 @@
 // cpuinfo.cpp : main project file.
 
 #include "stdafx.h"
-
-#include "../../lsMisc/HighDPI.h"
-#include "../../lsMisc/CHandle.h"
-#include "../../lsMisc/CreateSimpleWindow.h"
-
 #include "resource.h"
 
 #pragma comment(lib,"user32.lib")
@@ -236,6 +231,23 @@ int mymain(array<System::String ^> ^args)
 				szLL,
 				128);
 			sb.AppendLine(L"Locale(LOCALE_SABBREVLANGNAME) :" + TABSPACE + gcnew String(szLL));
+		}
+		{
+			struct lconv* lc;
+			setlocale(LC_ALL, ""); // Set current locale
+			lc = localeconv();
+
+			sb.AppendLine("C locale:");
+#define APPEND_LOCALECONV(L) sb.AppendLine("  " #L "=" + gcnew String(lc->_W_##L))
+			APPEND_LOCALECONV(decimal_point);
+			APPEND_LOCALECONV(thousands_sep);
+			APPEND_LOCALECONV(int_curr_symbol);
+			APPEND_LOCALECONV(currency_symbol);
+			APPEND_LOCALECONV(mon_decimal_point);
+			APPEND_LOCALECONV(mon_thousands_sep);
+			APPEND_LOCALECONV(positive_sign);
+			APPEND_LOCALECONV(negative_sign);
+#undef APPEND_LOCALECONV
 		}
 	}
 

@@ -12,9 +12,13 @@
 #include <memory>
 #include <functional>
 
-
 #include <windows.h>
 #include <gl/GL.h>
 #include <tchar.h>
+#include <locale.h>
 
 #include <vcclr.h>
+
+#include "../../lsMisc/HighDPI.h"
+#include "../../lsMisc/CHandle.h"
+#include "../../lsMisc/CreateSimpleWindow.h"
