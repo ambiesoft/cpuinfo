@@ -11,8 +11,11 @@
 using namespace System;
 using namespace System::IO;
 using namespace System::Net;
+using namespace System::Text;
 using namespace System::Windows::Forms;
 using namespace Microsoft::Win32;
+
+using namespace Ambiesoft;
 
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 bool Is64BitWindows()
@@ -38,17 +41,18 @@ bool Is64BitWindows()
 #endif
 }
 
+String^ getWin32OrWin64String()
+{
+#if defined(_WIN64)
+	return L"Win64";
+#elif defined(_WIN32)
+	return L"Win32";
+#else
+	return L"Unknown platform";
+#endif
+}
 std::string GetGlVersion()
 {
-	//typedef const char* (WINAPI *FNglGetString)(int name);
-
-	//Ambiesoft::CHModule module = LoadLibrary(L"Opengl32.dll");
-	//if (!module)
-	//	return std::string();
-
-	//FNglGetString fnglGetString = (FNglGetString)GetProcAddress(module, "glGetString");
-	//if (!fnglGetString)
-	//	return std::string();
 	Ambiesoft::CHWnd hwnd(Ambiesoft::CreateSimpleWindow());
 	if (!hwnd)
 		return std::string();
@@ -179,10 +183,10 @@ int mymain(array<System::String ^> ^args)
 		}
 	}
 
-	// Installed dotnet version
+	// Installed .NET Framework version
 	{
 		sb.AppendLine(L".NET Framework:");
-		String^ t = Ambiesoft::AmbLib::GetInstalledDotNetVersionFromRegistry();
+		String^ t = AmbLib::GetInstalledDotNetVersionFromRegistry();
 		StringReader sr(t);
 		System::Text::StringBuilder sbt;
 		String^ tt;
@@ -193,6 +197,78 @@ int mymain(array<System::String ^> ^args)
 			sbt.AppendLine();
 		}
 		sb.AppendLine(sbt.ToString());
+	}
+
+	// Installed .net core
+	{
+		int retval;
+		String^ output;
+		String^ err;
+		Exception^ resultException = nullptr;
+
+		sb.AppendLine("dotnet --list-runtimes:");
+
+		try 
+		{
+			AmbLib::OpenCommandGetResult(
+				"dotneta",
+				"--list-runtimes",
+				Encoding::ASCII,
+				retval,
+				output,
+				err);
+			if (retval != 0)
+				throw gcnew Exception();
+		}
+		catch (Exception^)
+		{
+			try 
+			{
+				String^ dw = Environment::ExpandEnvironmentVariables("%ProgramFiles%\\dotnet\\dotnet");
+				AmbLib::OpenCommandGetResult(
+					dw,
+					"--list-runtimes",
+					Encoding::ASCII,
+					retval,
+					output,
+					err);
+			}
+			catch (Exception^ ex)
+			{
+				resultException = ex;
+			}
+		}
+
+		if (resultException)
+		{
+			sb.AppendLine(resultException->Message);
+		}
+		else
+		{
+			if (retval != 0)
+			{
+				sb.AppendLine("Return value of 'dotnet' is not 0");
+			}
+			else
+			{
+				if (!String::IsNullOrEmpty(err))
+				{
+					sb.AppendLine("Errors:");
+					sb.AppendLine(err);
+				}
+				else
+				{
+					if (String::IsNullOrEmpty(output))
+					{
+						sb.AppendLine("Output is none");
+					}
+					else
+					{
+						sb.AppendLine(output);
+					}
+				}
+			}
+		}
 	}
 
 	// OpenGL
@@ -360,15 +436,14 @@ int mymain(array<System::String ^> ^args)
 		sb.AppendLine("Lookup: " + TABSPACE + "mysqlserverhost=" + strip);
 	}
 
-	System::Windows::Forms::MessageBox::Show(sb.ToString(),
-		Application::ProductName + " ver" + Ambiesoft::AmbLib::getAssemblyVersion(System::Reflection::Assembly::GetExecutingAssembly(), 3),
+
+	JR::Utils::GUI::Forms::FlexibleMessageBox::Show(sb.ToString(),
+		String::Format(L"{0} ({1}) ver{2}",
+		Application::ProductName,
+			getWin32OrWin64String(),
+			Ambiesoft::AmbLib::getAssemblyVersion(System::Reflection::Assembly::GetExecutingAssembly(), 3)),
 		MessageBoxButtons::OK,
 		MessageBoxIcon::Information);
-
-	//Ambiesoft::CountdownMessageBox::Show(nullptr,
-	//	sb.ToString(),
-	//	Application::ProductName);
-
 
 	if(false)
 	{

@@ -1,3 +1,6 @@
+2023/05/22 ver3.0.3
+Use FlexMessageBox, show dotnet runtimes, Added x64
+
 2023/03/24 ver3.0.2
 Added C locale
 
