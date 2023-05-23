@@ -437,7 +437,7 @@ int mymain(array<System::String ^> ^args)
 	}
 
 
-	JR::Utils::GUI::Forms::FlexibleMessageBox::Show(sb.ToString(),
+	JR::Utils::GUI::Forms::FlexibleMessageBox::Show(AmbLib::ReplaceTripleReturn(sb.ToString()),
 		String::Format(L"{0} ({1}) ver{2}",
 		Application::ProductName,
 			getWin32OrWin64String(),
