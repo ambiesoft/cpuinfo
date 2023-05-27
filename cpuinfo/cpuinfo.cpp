@@ -269,6 +269,7 @@ int mymain(array<System::String ^> ^args)
 				}
 			}
 		}
+		sb.AppendLine();
 	}
 
 	// OpenGL
@@ -463,6 +464,7 @@ int mymain(array<System::String ^> ^args)
 	return 0;
 }
 
+[STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
 	try

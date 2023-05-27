@@ -1,3 +1,6 @@
+2023/05/27 ver3.0.4
+Fixed: Ctrl+C to work
+
 2023/05/22 ver3.0.3
 Use FlexMessageBox, show dotnet runtimes, Added x64
 
