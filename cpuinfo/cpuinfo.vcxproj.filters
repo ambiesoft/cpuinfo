@@ -33,6 +33,12 @@
     <ClCompile Include="..\..\lsMisc\CreateSimpleWindow.cpp">
       <Filter>02 Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\lsMisc\cppclr\clrString.cpp">
+      <Filter>02 Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lsMisc\GetOSProductInfoAsString.cpp">
+      <Filter>02 Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -45,6 +51,12 @@
       <Filter>01 Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\lsMisc\CreateSimpleWindow.h">
+      <Filter>01 Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lsMisc\cppclr\clrString.h">
+      <Filter>01 Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lsMisc\GetOSProductInfoAsString.h">
       <Filter>01 Header Files</Filter>
     </ClInclude>
   </ItemGroup>

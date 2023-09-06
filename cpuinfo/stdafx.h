@@ -22,3 +22,6 @@
 #include "../../lsMisc/HighDPI.h"
 #include "../../lsMisc/CHandle.h"
 #include "../../lsMisc/CreateSimpleWindow.h"
+#include "../../lsMisc/GetOSProductInfoAsString.h"
+#include "../../lsMisc/cppclr/clrString.h"
+

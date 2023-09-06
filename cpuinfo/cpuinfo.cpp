@@ -17,7 +17,7 @@ using namespace Microsoft::Win32;
 
 using namespace Ambiesoft;
 
-typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
+typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 bool Is64BitWindows()
 {
 #if defined(_WIN64)
@@ -58,10 +58,10 @@ std::string GetGlVersion()
 		return std::string();
 
 	std::unique_ptr<void, std::function<void(void*)>> dc((void*)GetDC(hwnd), [&](void* dc)
-	{
-		if (dc)
-			ReleaseDC(hwnd, (HDC)dc);
-	});
+		{
+			if (dc)
+				ReleaseDC(hwnd, (HDC)dc);
+		});
 	PIXELFORMATDESCRIPTOR pfd;
 	ZeroMemory(&pfd, sizeof(pfd));
 	pfd.nSize = sizeof(pfd);
@@ -76,10 +76,10 @@ std::string GetGlVersion()
 	}
 
 	std::unique_ptr<void, std::function<void(void*)>> rc((void*)wglCreateContext((HDC)dc.get()), [](void* p)
-	{
-		if (p)
-			wglDeleteContext((HGLRC)p);
-	});
+		{
+			if (p)
+				wglDeleteContext((HGLRC)p);
+		});
 	if (!rc)
 	{
 		return std::string();
@@ -110,27 +110,33 @@ String^ ToHumanString(System::Int64 value)
 	return available.ToString() + unit;
 }
 
+
+
 [STAThreadAttribute]
-int mymain(array<System::String ^> ^args)
+int mymain(array<System::String^>^ args)
 {
 	Ambiesoft::InitHighDPISupport();
 
 	// Enabling Windows XP visual effects before any controls are created
 	Application::EnableVisualStyles();
-	Application::SetCompatibleTextRenderingDefault(false); 
+	Application::SetCompatibleTextRenderingDefault(false);
 
 	System::Text::StringBuilder sb;
 
 	{
-		sb.AppendLine(L"Machine: " + TABSPACE  + System::Environment::MachineName);
+		sb.AppendLine(L"Machine: " + TABSPACE + System::Environment::MachineName);
 	}
 
 	{
-		sb.AppendLine(L"OS: " + TABSPACE  + System::Environment::OSVersion->VersionString + L" " + (Is64BitWindows()?L"64bit":L""));
+		sb.Append(L"OS: " + TABSPACE);
+		sb.Append(System::Environment::OSVersion->VersionString + L" ");
+		sb.Append((Is64BitWindows() ? L"64bit" : L"") + L" ");
+		sb.Append( toCLR( GetOSProductInfoAsString()));
+		sb.AppendLine();
 	}
 
 	{
-		sb.AppendLine(L"User: " + TABSPACE  + System::Environment::UserName);
+		sb.AppendLine(L"User: " + TABSPACE + System::Environment::UserName);
 	}
 
 	{
@@ -143,15 +149,15 @@ int mymain(array<System::String ^> ^args)
 	// Number of CPU
 	{
 		SYSTEM_INFO sysinfo;
-		GetSystemInfo( &sysinfo );
-		sb.AppendLine(L"Number of CPU: " + TABSPACE  + sysinfo.dwNumberOfProcessors.ToString());
+		GetSystemInfo(&sysinfo);
+		sb.AppendLine(L"Number of CPU: " + TABSPACE + sysinfo.dwNumberOfProcessors.ToString());
 	}
 
 	// memory
 	{
-		MEMORYSTATUSEX msx = {0};
+		MEMORYSTATUSEX msx = { 0 };
 		msx.dwLength = sizeof(msx);
-		if(!GlobalMemoryStatusEx(&msx))
+		if (!GlobalMemoryStatusEx(&msx))
 		{
 			sb.AppendLine(gcnew String(_T("Function fails")));
 		}
@@ -160,8 +166,8 @@ int mymain(array<System::String ^> ^args)
 			TCHAR buff[256];
 			_stprintf(buff,
 				_T("%I64d MB of physical memory."),
-				msx.ullTotalPhys/(1024*1024));
-			sb.AppendLine(L"Ram: " + TABSPACE  + gcnew String(buff));
+				msx.ullTotalPhys / (1024 * 1024));
+			sb.AppendLine(L"Ram: " + TABSPACE + gcnew String(buff));
 		}
 	}
 
@@ -190,7 +196,7 @@ int mymain(array<System::String ^> ^args)
 		StringReader sr(t);
 		System::Text::StringBuilder sbt;
 		String^ tt;
-		while( (tt=sr.ReadLine()) != nullptr )
+		while ((tt = sr.ReadLine()) != nullptr)
 		{
 			sbt.Append(L" ");
 			sbt.Append(tt);
@@ -208,7 +214,7 @@ int mymain(array<System::String ^> ^args)
 
 		sb.AppendLine("dotnet --list-runtimes:");
 
-		try 
+		try
 		{
 			AmbLib::OpenCommandGetResult(
 				"dotneta",
@@ -222,7 +228,7 @@ int mymain(array<System::String ^> ^args)
 		}
 		catch (Exception^)
 		{
-			try 
+			try
 			{
 				String^ dw = Environment::ExpandEnvironmentVariables("%ProgramFiles%\\dotnet\\dotnet");
 				AmbLib::OpenCommandGetResult(
@@ -284,7 +290,7 @@ int mymain(array<System::String ^> ^args)
 		GetCPInfoEx(CP_ACP,
 			0,
 			&cpinfoex);
-		sb.AppendLine(L"ACP: " + TABSPACE  + gcnew String(cpinfoex.CodePageName));
+		sb.AppendLine(L"ACP: " + TABSPACE + gcnew String(cpinfoex.CodePageName));
 	}
 
 
@@ -328,11 +334,11 @@ int mymain(array<System::String ^> ^args)
 		}
 	}
 
-	
+
 	// Priority
 	{
 		DWORD dwPriorityClass = GetPriorityClass(GetCurrentProcess());
-		sb.AppendLine(L"Priority Class: " + TABSPACE  + dwPriorityClass.ToString());
+		sb.AppendLine(L"Priority Class: " + TABSPACE + dwPriorityClass.ToString());
 	}
 
 
@@ -344,9 +350,9 @@ int mymain(array<System::String ^> ^args)
 	// perf counter
 	{
 		String^ pefcounter;
-		sb.Append(L"QueryPerformanceFrequency: " + TABSPACE );
-		LARGE_INTEGER li={0};
-		if(!QueryPerformanceFrequency(&li))
+		sb.Append(L"QueryPerformanceFrequency: " + TABSPACE);
+		LARGE_INTEGER li = { 0 };
+		if (!QueryPerformanceFrequency(&li))
 		{
 			pefcounter = L"Failed";
 		}
@@ -360,14 +366,14 @@ int mymain(array<System::String ^> ^args)
 
 	// drive free space
 	{
-		for each(System::IO::DriveInfo^ di in System::IO::DriveInfo::GetDrives())
+		for each (System::IO::DriveInfo ^ di in System::IO::DriveInfo::GetDrives())
 		{
-			if( di->DriveType==System::IO::DriveType::Fixed)
+			if (di->DriveType == System::IO::DriveType::Fixed)
 			{
-				if(di->IsReady)
+				if (di->IsReady)
 				{
 					sb.Append(di->Name->TrimEnd('\\'));
-					sb.Append(L" " + TABSPACE );
+					sb.Append(L" " + TABSPACE);
 
 					sb.Append(ToHumanString(di->AvailableFreeSpace));
 
@@ -394,16 +400,16 @@ int mymain(array<System::String ^> ^args)
 		array<Object^>^ oPageFile = (array<Object^>^)Registry::GetValue(L"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management",
 			L"PagingFiles",
 			nullptr);
-		if(oPageFile != nullptr)
+		if (oPageFile != nullptr)
 		{
-			sb.AppendLine(L"PageFile: " + TABSPACE  + oPageFile[0]->ToString());
+			sb.AppendLine(L"PageFile: " + TABSPACE + oPageFile[0]->ToString());
 		}
 	}
 
 
 	//--------------------------------------------------
 
-	if(false)
+	if (false)
 	{
 		// showballoon.exe [/title:STRING] [/icon:EXE or DLL for ICON] [/iconindex:i] [/duration:MILLISEC] [/waitpid:PID] STRING
 		String^ exe = L"C:\\Linkout\\CommonExe\\showballoon.exe";
@@ -411,11 +417,11 @@ int mymain(array<System::String ^> ^args)
 			L"balloonTest",
 			System::Web::HttpUtility::UrlEncode(sb.ToString()));
 
-		System::Diagnostics::Process::Start(exe,arg);
+		System::Diagnostics::Process::Start(exe, arg);
 	}
 
 	sb.AppendLine();
-	
+
 	// DNS server
 	{
 		sb.AppendLine("DNS: " + TABSPACE + Ambiesoft::AmbLib::GetDnsAdress());
@@ -427,30 +433,30 @@ int mymain(array<System::String ^> ^args)
 		try
 		{
 			IPHostEntry^ entry = Dns::GetHostEntry("mysqlserverhost");
-			if(entry && entry->AddressList->Length > 0)
+			if (entry && entry->AddressList->Length > 0)
 			{
 				IPAddress^ ip = entry->AddressList[0];
 				strip = ip->ToString();
 			}
 		}
-		catch(Exception^) {}
+		catch (Exception^) {}
 		sb.AppendLine("Lookup: " + TABSPACE + "mysqlserverhost=" + strip);
 	}
 
 
 	JR::Utils::GUI::Forms::FlexibleMessageBox::Show(AmbLib::ReplaceTripleReturn(sb.ToString()),
 		String::Format(L"{0} ({1}) ver{2}",
-		Application::ProductName,
+			Application::ProductName,
 			getWin32OrWin64String(),
 			Ambiesoft::AmbLib::getAssemblyVersion(System::Reflection::Assembly::GetExecutingAssembly(), 3)),
 		MessageBoxButtons::OK,
 		MessageBoxIcon::Information);
 
-	if(false)
+	if (false)
 	{
 		HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON_MAIN));
 
-		int waitspan = 30*1000;
+		int waitspan = 30 * 1000;
 		NotifyIcon^ ni = gcnew NotifyIcon();
 		ni->BalloonTipText = sb.ToString();
 		ni->Icon = System::Drawing::Icon::FromHandle((IntPtr)hIcon);// gcnew System::Drawing::Icon(
@@ -465,13 +471,13 @@ int mymain(array<System::String ^> ^args)
 }
 
 [STAThreadAttribute]
-int main(array<System::String ^> ^args)
+int main(array<System::String^>^ args)
 {
 	try
 	{
 		return mymain(args);
 	}
-	catch(System::Exception^ ex)
+	catch (System::Exception^ ex)
 	{
 		MessageBox::Show(ex->Message);
 	}
