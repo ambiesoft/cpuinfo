@@ -131,7 +131,7 @@ int mymain(array<System::String^>^ args)
 		sb.Append(L"OS: " + TABSPACE);
 		sb.Append(System::Environment::OSVersion->VersionString + L" ");
 		sb.Append((Is64BitWindows() ? L"64bit" : L"") + L" ");
-		sb.Append( toCLR( GetOSProductInfoAsString()));
+		sb.Append(CLRHelper::toCLR(GetOSProductInfoAsString()));
 		sb.AppendLine();
 	}
 
@@ -338,7 +338,19 @@ int mymain(array<System::String^>^ args)
 	// Priority
 	{
 		DWORD dwPriorityClass = GetPriorityClass(GetCurrentProcess());
-		sb.AppendLine(L"Priority Class: " + TABSPACE + dwPriorityClass.ToString());
+		System::Collections::Generic::List<String^> strsPriority;
+#define CHECK_PRIORITY(cla) do {if (dwPriorityClass & cla){	strsPriority.Add(#cla);}}while(false);
+		CHECK_PRIORITY(ABOVE_NORMAL_PRIORITY_CLASS);
+		CHECK_PRIORITY(BELOW_NORMAL_PRIORITY_CLASS);
+		CHECK_PRIORITY(HIGH_PRIORITY_CLASS);
+		CHECK_PRIORITY(IDLE_PRIORITY_CLASS);
+		CHECK_PRIORITY(NORMAL_PRIORITY_CLASS);
+		CHECK_PRIORITY(REALTIME_PRIORITY_CLASS);
+#undef CHECK_PRIORITY
+		sb.AppendLine(L"Priority Class: " + TABSPACE +
+			String::Format(L"{0} ({1})",
+				dwPriorityClass.ToString(),
+				String::Join(L" | ", strsPriority.ToArray())));
 	}
 
 
